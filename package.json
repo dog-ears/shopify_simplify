@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "shopify theme dev --store simplify99.myshopify.com",
+    "dev": "shopify:dev",
+    "------ shopify ----": "",
+    "shopify:dev": "shopify theme dev --store simplify99.myshopify.com",
+    "shopify:check": "shopify theme check",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
