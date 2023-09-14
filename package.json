@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "shopify:dev",
+    "dev": "npm run shopify:dev",
     "------ shopify ----": "",
     "shopify:dev": "shopify theme dev --store simplify99.myshopify.com",
     "shopify:check": "shopify theme check",
