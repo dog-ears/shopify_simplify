@@ -1,0 +1,48 @@
+{% comment %}
+  セクションテンプレート
+  section-template.liquid
+
+  セクションを作るときはこのファイルを複製して作ること
+{% endcomment %}
+
+{%- style -%}
+  /* settingによってかわるスタイルはここに記述 */
+{%- endstyle -%}
+
+<div>セクションテンプレート</div>
+
+{% schema %}
+{
+  "name": "セクションテンプレート",
+  "tag": "section",
+  "class": "section-sectionTemplate",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "test01",
+      "label": "テキスト"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "ブロック",
+      "type": "blockType",
+      "settings": [
+        {
+          "type": "text",
+          "id": "test01",
+          "label": "テキスト"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "セクションテンプレート"
+    }
+  ]
+}
+{% endschema %}
