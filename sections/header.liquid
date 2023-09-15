@@ -1,0 +1,38 @@
+<div>header.liquid</div>
+
+{% schema %}
+{
+  "name": "基本ヘッダ",
+  "tag": "header",
+  "class": "section-header",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "test01",
+      "label": "テキスト"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "ブロック",
+      "type": "blockType",
+      "settings": [
+        {
+          "type": "text",
+          "id": "test01",
+          "label": "テキスト"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "基本ヘッダ"
+    }
+  ]
+}
+{% endschema %}

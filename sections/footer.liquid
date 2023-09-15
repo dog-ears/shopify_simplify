@@ -1,0 +1,38 @@
+<div>footer.liquid</div>
+
+{% schema %}
+{
+  "name": "基本フッタ",
+  "tag": "footer",
+  "class": "section-footer",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "test01",
+      "label": "テキスト"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "ブロック",
+      "type": "blockType",
+      "settings": [
+        {
+          "type": "text",
+          "id": "test01",
+          "label": "テキスト"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "基本フッタ"
+    }
+  ]
+}
+{% endschema %}

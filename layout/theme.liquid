@@ -11,8 +11,10 @@
     {{ content_for_header }}
   </head>
   <body class="template-{{ template.name }}">
+    {% sections 'header-group' %}
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
+    {% sections 'footer-group' %}
   </body>
 </html>
