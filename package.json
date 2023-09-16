@@ -10,6 +10,7 @@
     "shopify:check": "shopify theme check",
     "shopify:pull": "shopify theme pull --store simplify99.myshopify.com --nodelete",
     "shopify:push": "shopify theme push --store simplify99.myshopify.com",
+    "shopify:themeCheckInit": "shopify theme check --init",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
