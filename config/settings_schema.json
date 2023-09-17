@@ -6,5 +6,15 @@
     "theme_author": "Moriguchi",
     "theme_documentation_url": "https://github.com/dog-ears/shopify_simplify",
     "theme_support_url": "https://github.com/dog-ears/shopify_simplify"
+  },
+  {
+    "name": "ロゴ",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "ロゴ"
+      }
+    ]
   }
 ]
