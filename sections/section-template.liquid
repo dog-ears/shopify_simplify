@@ -14,6 +14,79 @@
 
 <div>セクションテンプレート</div>
 
+{% comment %} 一般的なHTMLタグ表示確認用 {% endcomment %}
+<section>
+  <h1>h1 見出し</h1>
+  <h2>h2 見出し</h2>
+  <h3>h3 見出し</h3>
+  <h4>h4 見出し</h4>
+  <div>
+    <dl>
+      <dt>dt タイトル</dt>
+      <dd>dd 説明説明説明説明</dd>
+      <dt>dt タイトル</dt>
+      <dd>dd 説明説明説明説明</dd>
+    </dl>
+  </div>
+  <div>
+    <ol>
+      <li>順序付きリスト</li>
+      <li>順序付きリスト</li>
+      <li>順序付きリスト</li>
+    </ol>
+  </div>
+  <div>
+    <ul>
+      <li>順序なしリスト</li>
+      <li>順序なしリスト</li>
+      <li>順序なしリスト</li>
+    </ul>
+  </div>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>th見出し</th>
+          <th>th見出し</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>th見出し</th>
+          <td>tdテキスト</td>
+        </tr>
+        <tr>
+          <th>th見出し</th>
+          <td>tdテキスト</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <form>
+      <label for="">ラベル</label>
+      <input type="text">
+      <input type="button" value="ボタン">
+      <input type="checkbox">
+      <input type="radio">
+      <input type="email">
+      <input type="number">
+      <input type="tel">
+      <input type="url">
+      <input type="password">
+      <input type="submit" value="送信">
+      <textarea name="" cols="30" rows="10"></textarea>
+      <select name="">
+        <option value="">オプション01</option>
+        <option value="">オプション02</option>
+      </select>
+    </form>
+  </div>
+  <div>div ブロック</div>
+  <hr>
+  <p>p 段落段落段落段落<a href="">リンク</a>段落段落段落段落</p>
+</section>
+
 {% schema %}
 {
   "name": "セクションテンプレート",

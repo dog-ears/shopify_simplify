@@ -1,0 +1,63 @@
+@charset "utf-8";
+@use 'inc/utility' as *;
+
+@keyframes anim-fadeIn{
+	0%{
+    opacity: 0;
+	}
+	100%{
+    opacity: 1;
+	}
+}
+
+/* --------------------------------------------------
+ベース
+-------------------------------------------------- */
+
+html,body{
+  min-height: 100dvh;
+}
+html{
+  font-size: 62.5%;
+}
+body{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background:#fff;
+  line-height: 1.6;
+  color: #000;
+  font-feature-settings: "palt";
+  font-size: 1.6rem;
+  font-weight: 400;
+  animation: 0.7s ease-in 0s 1 normal forwards anim-fadeIn;
+  @include sp{
+    font-size: 1.4rem;
+  }
+}
+main{
+  flex-grow: 1;
+}
+a{
+  transition: opacity 0.3s ease-out;
+  text-decoration: none;
+  color: #00f;
+  &:focus{
+    outline:none;
+  }
+  &:hover{
+    opacity: 0.7;
+  }
+}
+img {
+  max-width: 100%;
+}
+strong{
+  font-weight: bold;
+}
+textarea {
+  resize: none;
+  &:focus{
+    outline: 0;
+  }
+}
