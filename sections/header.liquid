@@ -1,3 +1,12 @@
+{%- style -%}
+  #shopify-section-{{ section.id }}{
+    padding: {{ section.settings.padding_y_pc }}px {{ section.settings.padding_x_pc }}px;
+    @media screen and (max-width: 768px){
+      padding: {{ section.settings.padding_y_sp }}px {{ section.settings.padding_x_sp }}px;
+    }
+  }
+{%- endstyle -%}
+
 <div class="inner">
   <div class="logo">
     {%- if request.page_type == 'index' -%}
@@ -49,6 +58,38 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "レイアウト"
+    },
+    {
+      "type": "number",
+      "id": "padding_y_pc",
+      "label": "縦余白（PC）",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "padding_x_pc",
+      "label": "横余白（PC）",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "padding_y_sp",
+      "label": "縦余白（SP）",
+      "default": 10
+    },
+    {
+      "type": "number",
+      "id": "padding_x_sp",
+      "label": "横余白（SP）",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "ロゴ"
+    },
     {
       "type": "number",
       "id": "logo_width_pc",
