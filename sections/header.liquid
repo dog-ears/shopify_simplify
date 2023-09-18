@@ -1,4 +1,43 @@
-<div>header.liquid</div>
+<div class="inner">
+  <div class="logo">
+    {%- if request.page_type == 'index' -%}
+      <h1>
+    {%- else -%}
+      <a href="/">
+    {%- endif -%}
+
+    {%- if settings.logo != blank -%}
+      {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+      {%- assign logo_height = section.settings.logo_width_pc | divided_by: settings.logo.aspect_ratio -%}
+      {% capture sizes %}(max-width: {{ section.settings.logo_width_pc | times: 2 }}px) 50vw, {{ section.settings.logo_width_pc }}px{% endcapture %}
+      {% capture widths %}{{ section.settings.logo_width_pc }}, {{ section.settings.logo_width_pc | times: 1.5 | round }}, {{ section.settings.logo_width_pc | times: 2 }}{% endcapture %}
+      {{
+        settings.logo
+        | image_url: width: section.settings.logo_width_pc
+        | image_tag:
+          sizes: sizes,
+          widths: widths,
+          width: section.settings.logo_width_pc,
+          height: logo_height,
+          alt: logo_alt,
+          preload: true
+      }}
+    {%- else -%}
+      <span class="textLogo">{{ shop.name }}</span>
+    {%- endif -%}
+
+    {%- if request.page_type == 'index' -%}
+      </h1>
+    {%- else -%}
+      </a>
+    {%- endif -%}
+  </div>
+  <div class="menu">
+    <div class="ecLinks"></div>
+    <nav class="menu"></nav>
+  </div>
+  <div class="btnMenu"></div>
+</div>
 
 {% schema %}
 {
@@ -10,6 +49,18 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "number",
+      "id": "logo_width_pc",
+      "label": "ロゴの幅（PC）",
+      "default": 100
+    },
+    {
+      "type": "number",
+      "id": "logo_width_sp",
+      "label": "ロゴの幅（SP）",
+      "default": 100
+    },
     {
       "type": "text",
       "id": "test01",
