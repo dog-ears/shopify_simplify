@@ -1,8 +1,25 @@
 {%- style -%}
   #shopify-section-{{ section.id }}{
-    padding: {{ section.settings.padding_y_pc }}px {{ section.settings.padding_x_pc }}px;
+    /* 左右余白の設定 */
+    {% if section.settings.padding_x_pc >= 0 %}
+      padding: {{ section.settings.padding_y_pc }}px {{ section.settings.padding_x_pc }}px;
+    {% else %}
+      padding: {{ section.settings.padding_y_pc }}px var(--contents-padding-x-pc);
+    {% endif %}
     @media screen and (max-width: 768px){
-      padding: {{ section.settings.padding_y_sp }}px {{ section.settings.padding_x_sp }}px;
+      {% if section.settings.padding_x_sp >= 0 %}
+        padding: {{ section.settings.padding_y_sp }}px {{ section.settings.padding_x_sp }}px;
+      {% else %}
+        padding: {{ section.settings.padding_y_sp }}px var(--contents-padding-x-sp);
+      {% endif %}
+    }
+    /* 背景色 */
+    {% if section.settings.bg_color != blank %}
+      background-color: {{ section.settings.bg_color }};
+    {% endif %}
+
+    > .inner{
+      max-width: var(--contents-max-width);
     }
   }
 {%- endstyle -%}
@@ -41,9 +58,100 @@
       </a>
     {%- endif -%}
   </div>
-  <div class="menu">
-    <div class="ecLinks"></div>
-    <nav class="menu"></nav>
+  <div class="links" menu-position="{{ section.settings.menu_position }}">
+    <div class="ecLinks">
+      <ul>
+        <li class="search">
+          <a href="#"><span class="material-symbols-outlined">search</span></a>
+          <div class="modal" js-state="close">
+            <div class="inner">
+              <div class="input">
+                <input type="text">
+              </div>
+              <div class="close">
+                <a href="#"><span class="material-symbols-outlined">close</span></a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="mypage">
+          <a href=""><span class="material-symbols-outlined">person</span></a>
+        </li>
+        <li>
+          <a href=""><span class="material-symbols-outlined">shopping_bag</span></a>
+        </li>
+      </ul>
+    </div>
+    {%- if section.settings.menu != blank -%}
+      <nav class="menu">
+        <ul>
+          {%- for link in section.settings.menu.links -%}
+            <li
+              {% if link.current %}
+                class="-active"
+              {% endif %}
+            >
+              <a
+                href="{{ link.url }}"
+                {% assign f4 = link.url | slice: 0, 4 %}
+                {% if f4 == 'http' %}
+                  target="_blank"
+                  rel="noopener"
+                {% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+              {% comment %} 子リンク {% endcomment %}
+              {%- if link.links != blank -%}
+                <ul>
+                  {%- for childlink in link.links -%}
+                    <li
+                      {% if childlink.current %}
+                        class="-active"
+                      {% endif %}
+                    >
+                      <a
+                        href="{{ childlink.url }}"
+                        {% assign f4 = childlink.url | slice: 0, 4 %}
+                        {% if f4 == 'http' %}
+                          target="_blank"
+                          rel="noopener"
+                        {% endif %}
+                      >
+                        {{- childlink.title | escape -}}
+                      </a>
+                      {% comment %} 孫リンク {% endcomment %}
+                      {%- if childlink.links != blank -%}
+                        <ul>
+                          {%- for grandchildlink in childlink.links -%}
+                            <li
+                              {% if grandchildlink.current %}
+                                class="-active"
+                              {% endif %}
+                            >
+                              <a
+                                href="{{ grandchildlink.url }}"
+                                {% assign f4 = grandchildlink.url | slice: 0, 4 %}
+                                {% if f4 == 'http' %}
+                                  target="_blank"
+                                  rel="noopener"
+                                {% endif %}
+                              >
+                                {{- grandchildlink.title | escape -}}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
   </div>
   <div class="btnMenu"></div>
 </div>
@@ -72,7 +180,8 @@
       "type": "number",
       "id": "padding_x_pc",
       "label": "横余白（PC）",
-      "default": 20
+      "default": 20,
+      "info": "マイナスの場合はテーマ設定の「コンテンツ左右余白（PC）」が適用されます。"
     },
     {
       "type": "number",
@@ -84,7 +193,13 @@
       "type": "number",
       "id": "padding_x_sp",
       "label": "横余白（SP）",
-      "default": 10
+      "default": 10,
+      "info": "マイナスの場合はテーマ設定の「コンテンツ左右余白（SP）」が適用されます。"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色"
     },
     {
       "type": "header",
@@ -103,9 +218,34 @@
       "default": 100
     },
     {
-      "type": "text",
-      "id": "test01",
-      "label": "テキスト"
+      "type": "header",
+      "content": "メニュー"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "基本メニュー"
+    },
+    {
+      "type": "select",
+      "id": "menu_position",
+      "label": "基本メニューの位置",
+      "options": [
+        {
+          "value": "center_left",
+          "label": "中央で左寄せ"
+        },
+        {
+          "value": "center_right",
+          "label": "中央で右寄せ"
+        },
+        {
+          "value": "right_bottom",
+          "label": "右下"
+        }
+      ],
+      "default": "center_left"
     }
   ],
   "blocks": [

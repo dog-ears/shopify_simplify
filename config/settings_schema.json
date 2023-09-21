@@ -14,6 +14,24 @@
         "type": "image_picker",
         "id": "logo",
         "label": "ロゴ"
+      },
+      {
+        "type": "number",
+        "id": "contents_width_max",
+        "label": "最大コンテンツ幅",
+        "default": 1200
+      },
+      {
+        "type": "number",
+        "id": "contents_padding_x_pc",
+        "label": "コンテンツ左右余白（PC）",
+        "default": 30
+      },
+      {
+        "type": "number",
+        "id": "contents_padding_x_sp",
+        "label": "コンテンツ左右余白（SP）",
+        "default": 20
       }
     ]
   }
