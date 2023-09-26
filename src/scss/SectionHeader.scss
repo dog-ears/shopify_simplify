@@ -151,7 +151,6 @@
           display: flex;
           flex-wrap: wrap;
           gap: 20px;
-          background: #FFF;
           > li{
             > a{
               color: #000;
@@ -188,6 +187,7 @@
               position: absolute;
               top: calc(100% + 10px);
               left: -11px;
+              background: #FFF;
               border: 1px solid #CCC;
               border-radius: 5px;
               overflow: hidden;

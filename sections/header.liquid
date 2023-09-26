@@ -75,11 +75,22 @@
             </div>
           </div>
         </li>
-        <li class="mypage">
-          <a href=""><span class="material-symbols-outlined">person</span></a>
-        </li>
+        {%- if shop.customer_accounts_enabled -%}
+          <li class="mypage">
+            <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+              ><span class="material-symbols-outlined">person</span></a
+            >
+          </li>
+        {%- endif -%}
         <li>
-          <a href=""><span class="material-symbols-outlined">shopping_bag</span></a>
+          <a href="{{ routes.cart_url }}"><span class="material-symbols-outlined">shopping_bag</span></a>
+          {%- if cart != empty -%}
+            {%- if cart.item_count < 10 -%}
+              <span class="count">{{ cart.item_count }}</span>
+            {%- else -%}
+              <span class="count">9+</span>
+            {%- endif -%}
+          {%- endif -%}
         </li>
       </ul>
     </div>
