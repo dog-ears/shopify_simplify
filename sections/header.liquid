@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ 'SectionHeader.css' | asset_url }}" media="print" onload="this.media='all'">
+
 {%- style -%}
   #shopify-section-{{ section.id }}{
     /* 左右余白の設定 */
@@ -17,10 +19,6 @@
     {% if section.settings.bg_color != blank %}
       background-color: {{ section.settings.bg_color }};
     {% endif %}
-
-    > .inner{
-      max-width: var(--contents-max-width);
-    }
   }
 {%- endstyle -%}
 
@@ -61,15 +59,18 @@
   <div class="links" menu-position="{{ section.settings.menu_position }}">
     <div class="ecLinks">
       <ul>
-        <li class="search">
+        <li class="search" js-search js-search-modal-state="close">
           <a href="#"><span class="material-symbols-outlined">search</span></a>
-          <div class="modal" js-state="close">
+          <div class="modal" js-search-state="close">
             <div class="inner">
               <div class="input">
-                <input type="text">
+                <form action="/search" method="get" role="search">
+                  <input type="text" name="q" placeholder="Search" class="form-input">
+                  <button type="submit"></button>
+                </form>
               </div>
               <div class="close">
-                <a href="#"><span class="material-symbols-outlined">close</span></a>
+                <a href="#" js-search-close><span class="material-symbols-outlined">close</span></a>
               </div>
             </div>
           </div>
@@ -83,13 +84,17 @@
       </ul>
     </div>
     {%- if section.settings.menu != blank -%}
-      <nav class="menu">
+      <nav class="menu" js-menu>
         <ul>
           {%- for link in section.settings.menu.links -%}
             <li
               {% if link.current %}
                 class="-active"
               {% endif %}
+              {% if link.links != blank %}
+                js-menu-state="close"
+              {% endif %}
+              js-menu-level="1"
             >
               <a
                 href="{{ link.url }}"
@@ -99,7 +104,7 @@
                   rel="noopener"
                 {% endif %}
               >
-                {{- link.title | escape -}}
+                <span>{{- link.title | escape -}}</span>
               </a>
               {% comment %} 子リンク {% endcomment %}
               {%- if link.links != blank -%}
@@ -109,6 +114,10 @@
                       {% if childlink.current %}
                         class="-active"
                       {% endif %}
+                      {% if childlink.links != blank %}
+                        js-menu-state="close"
+                      {% endif %}
+                      js-menu-level="2"
                     >
                       <a
                         href="{{ childlink.url }}"
@@ -118,7 +127,7 @@
                           rel="noopener"
                         {% endif %}
                       >
-                        {{- childlink.title | escape -}}
+                        <span>{{- childlink.title | escape -}}</span>
                       </a>
                       {% comment %} 孫リンク {% endcomment %}
                       {%- if childlink.links != blank -%}
@@ -128,6 +137,7 @@
                               {% if grandchildlink.current %}
                                 class="-active"
                               {% endif %}
+                              js-menu-level="3"
                             >
                               <a
                                 href="{{ grandchildlink.url }}"
@@ -137,7 +147,7 @@
                                   rel="noopener"
                                 {% endif %}
                               >
-                                {{- grandchildlink.title | escape -}}
+                                <span>{{- grandchildlink.title | escape -}}</span>
                               </a>
                             </li>
                           {%- endfor -%}
@@ -155,6 +165,17 @@
   </div>
   <div class="btnMenu"></div>
 </div>
+
+<script src="{{ 'SectionHeader.js' | asset_url }}" defer="defer"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let rootEl = document.querySelector('#shopify-section-{{ section.id }}');
+    window.jsClass.push({
+      id: '{{ section.id }}',
+      class: new SectionHeader(rootEl),
+    });
+  });
+</script>
 
 {% schema %}
 {

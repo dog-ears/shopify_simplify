@@ -18,6 +18,7 @@ html,body{
   min-height: 100dvh;
 }
 html{
+  position: relative;
   font-size: 62.5%;
 }
 body{
@@ -33,6 +34,10 @@ body{
   animation: 0.7s ease-in 0s 1 normal forwards anim-fadeIn;
   @include sp{
     font-size: 1.4rem;
+  }
+  // js-overflow-hidden
+  &[js-overflow-hidden="true"]{
+    overflow: hidden;
   }
 }
 main{
@@ -63,96 +68,12 @@ textarea {
 }
 
 /* --------------------------------------------------
-セクション コンポーネント
+共通モジュール
 -------------------------------------------------- */
 
-// ヘッダ
-.section-header{
-  > .inner{
-    display: flex;
-    gap: 30px;
-    margin: 0 auto;
-    > .logo{
-      display: flex;
-      align-items: center;
-    }
-    > .links{
-      flex-grow: 1;
-      > .ecLinks{
-        > ul{
-          display: flex;
-          gap: 10px;
-          > li{
-            > a{
-              color: #000;
-              > span{
-                font-size: 30px;
-              }
-            }
-            &.search{
-              > .modal{
-                // クローズ時
-                &[js-state="close"]{
-                  display: none;
-                }
-              }
-            }
-          }
-        }
-      }
-      > .menu{
-        > ul{
-          display: flex;
-          gap: 10px;
-          > li{
-            > a{
-              color: #000;
-              &:hover{
-                opacity: 1;
-                text-decoration: underline;
-              }
-            }
-            // 2階層目
-            > ul{
-              display: none;
-              > li{
-                // 3階層目
-                > ul{
-                  display: none;
-                }
-              }
-            }
-          }
-        }
-      }
-      // メニュー位置：中央で左寄せ、中央で右寄せ　共通
-      &[menu-position="center_left"],
-      &[menu-position="center_right"]{
-        display: flex;
-        gap: 30px;
-        align-items: center;
-        > .ecLinks{
-          order: 2;
-          margin-left: auto;
-        }
-        > .menu{
-          order: 1;
-        }
-      }
-      // メニュー位置：中央で右寄せ
-      &[menu-position="center_right"]{
-        flex-grow: 0;
-        margin-left: auto;
-      }
-      // メニュー位置：右下
-      &[menu-position="right_bottom"]{
-        > .ecLinks > ul{
-          justify-content: flex-end;
-        }
-        > .menu > ul{
-          justify-content: flex-end;
-        }
-      }
-    }
-  }
+.form-input{
+  min-height: 46px;
+  padding: 10px;
+  background-color: #FFF;
+  box-shadow: 0 0 0 1px #EEE;
 }

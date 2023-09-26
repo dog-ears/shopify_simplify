@@ -24,7 +24,10 @@
 
     {{ content_for_header }}
   </head>
-  <body class="template-{{ template.name }}">
+  <body class="template-{{ template.name }}" js-overflowhidden="false">
+    <script>
+      window.jsClass = [];
+    </script>
     {% sections 'header-group' %}
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
