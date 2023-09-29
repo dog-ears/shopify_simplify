@@ -2,179 +2,186 @@
 
 {%- style -%}
   #shopify-section-{{ section.id }}{
-    /* 左右余白の設定 */
-    {% if section.settings.padding_x_pc >= 0 %}
-      padding: {{ section.settings.padding_y_pc }}px {{ section.settings.padding_x_pc }}px;
-    {% else %}
-      padding: {{ section.settings.padding_y_pc }}px var(--contents-padding-x-pc);
-    {% endif %}
-    @media screen and (max-width: 768px){
-      {% if section.settings.padding_x_sp >= 0 %}
-        padding: {{ section.settings.padding_y_sp }}px {{ section.settings.padding_x_sp }}px;
+    > .wrapper{
+      /* 左右余白の設定 */
+      {% if section.settings.padding_x_pc >= 0 %}
+        padding: {{ section.settings.padding_y_pc }}px {{ section.settings.padding_x_pc }}px;
       {% else %}
-        padding: {{ section.settings.padding_y_sp }}px var(--contents-padding-x-sp);
+        padding: {{ section.settings.padding_y_pc }}px var(--contents-padding-x-pc);
+      {% endif %}
+      @media screen and (max-width: 768px){
+        {% if section.settings.padding_x_sp >= 0 %}
+          padding: {{ section.settings.padding_y_sp }}px {{ section.settings.padding_x_sp }}px;
+        {% else %}
+          padding: {{ section.settings.padding_y_sp }}px var(--contents-padding-x-sp);
+        {% endif %}
+      }
+      /* 背景色 */
+      {% if section.settings.bg_color != blank %}
+        background-color: {{ section.settings.bg_color }};
       {% endif %}
     }
-    /* 背景色 */
-    {% if section.settings.bg_color != blank %}
-      background-color: {{ section.settings.bg_color }};
-    {% endif %}
   }
 {%- endstyle -%}
 
-<div class="inner">
-  <div class="logo">
-    {%- if request.page_type == 'index' -%}
-      <h1>
-    {%- else -%}
-      <a href="/">
-    {%- endif -%}
+<div class="wrapper">
+  <div class="inner">
+    <div class="logo">
+      {%- if request.page_type == 'index' -%}
+        <h1>
+      {%- else -%}
+        <a href="/">
+      {%- endif -%}
 
-    {%- if settings.logo != blank -%}
-      {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-      {%- assign logo_height = section.settings.logo_width_pc | divided_by: settings.logo.aspect_ratio -%}
-      {% capture sizes %}(max-width: {{ section.settings.logo_width_pc | times: 2 }}px) 50vw, {{ section.settings.logo_width_pc }}px{% endcapture %}
-      {% capture widths %}{{ section.settings.logo_width_pc }}, {{ section.settings.logo_width_pc | times: 1.5 | round }}, {{ section.settings.logo_width_pc | times: 2 }}{% endcapture %}
-      {{
-        settings.logo
-        | image_url: width: section.settings.logo_width_pc
-        | image_tag:
-          sizes: sizes,
-          widths: widths,
-          width: section.settings.logo_width_pc,
-          height: logo_height,
-          alt: logo_alt,
-          preload: true
-      }}
-    {%- else -%}
-      <span class="textLogo">{{ shop.name }}</span>
-    {%- endif -%}
+      {%- if settings.logo != blank -%}
+        {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+        {%- assign logo_height = section.settings.logo_width_pc | divided_by: settings.logo.aspect_ratio -%}
+        {% capture sizes %}(max-width: {{ section.settings.logo_width_pc | times: 2 }}px) 50vw, {{ section.settings.logo_width_pc }}px{% endcapture %}
+        {% capture widths %}{{ section.settings.logo_width_pc }}, {{ section.settings.logo_width_pc | times: 1.5 | round }}, {{ section.settings.logo_width_pc | times: 2 }}{% endcapture %}
+        {{
+          settings.logo
+          | image_url: width: section.settings.logo_width_pc
+          | image_tag:
+            sizes: sizes,
+            widths: widths,
+            width: section.settings.logo_width_pc,
+            height: logo_height,
+            alt: logo_alt,
+            preload: true
+        }}
+      {%- else -%}
+        <span class="textLogo">{{ shop.name }}</span>
+      {%- endif -%}
 
-    {%- if request.page_type == 'index' -%}
-      </h1>
-    {%- else -%}
-      </a>
-    {%- endif -%}
-  </div>
-  <div class="links" menu-position="{{ section.settings.menu_position }}">
-    <div class="ecLinks">
-      <ul>
-        <li class="search" js-search js-search-modal-state="close">
-          <a href="#"><span class="material-symbols-outlined">search</span></a>
-          <div class="modal" js-search-state="close">
-            <div class="inner">
-              <div class="input">
-                <form action="/search" method="get" role="search">
-                  <input type="text" name="q" placeholder="Search" class="form-input">
-                  <button type="submit"></button>
-                </form>
-              </div>
-              <div class="close">
-                <a href="#" js-search-close><span class="material-symbols-outlined">close</span></a>
+      {%- if request.page_type == 'index' -%}
+        </h1>
+      {%- else -%}
+        </a>
+      {%- endif -%}
+    </div>
+    <div class="links" menu-position="{{ section.settings.menu_position }}">
+      <div class="ecLinks">
+        <ul>
+          <li class="search" js-search js-search-modal-state="close">
+            <a href="#"><span class="material-symbols-outlined">search</span></a>
+            <div class="modal" js-search-state="close">
+              <div class="inner">
+                <div class="input">
+                  <form action="/search" method="get" role="search">
+                    <input type="text" name="q" placeholder="Search" class="form-input">
+                    <button type="submit"></button>
+                  </form>
+                </div>
+                <div class="close">
+                  <a href="#" js-search-close><span class="material-symbols-outlined">close</span></a>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-        {%- if shop.customer_accounts_enabled -%}
-          <li class="mypage">
-            <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-              ><span class="material-symbols-outlined">person</span></a
-            >
           </li>
-        {%- endif -%}
-        <li>
-          <a href="{{ routes.cart_url }}"><span class="material-symbols-outlined">shopping_bag</span></a>
-          {%- if cart != empty -%}
-            {%- if cart.item_count < 10 -%}
-              <span class="count">{{ cart.item_count }}</span>
-            {%- else -%}
-              <span class="count">9+</span>
-            {%- endif -%}
-          {%- endif -%}
-        </li>
-      </ul>
-    </div>
-    {%- if section.settings.menu != blank -%}
-      <nav class="menu" js-menu>
-        <ul>
-          {%- for link in section.settings.menu.links -%}
-            <li
-              {% if link.current %}
-                class="-active"
-              {% endif %}
-              {% if link.links != blank %}
-                js-menu-state="close"
-              {% endif %}
-              js-menu-level="1"
-            >
-              <a
-                href="{{ link.url }}"
-                {% assign f4 = link.url | slice: 0, 4 %}
-                {% if f4 == 'http' %}
-                  target="_blank"
-                  rel="noopener"
-                {% endif %}
+          {%- if shop.customer_accounts_enabled -%}
+            <li class="mypage">
+              <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                ><span class="material-symbols-outlined">person</span></a
               >
-                <span>{{- link.title | escape -}}</span>
-              </a>
-              {% comment %} 子リンク {% endcomment %}
-              {%- if link.links != blank -%}
-                <ul>
-                  {%- for childlink in link.links -%}
-                    <li
-                      {% if childlink.current %}
-                        class="-active"
-                      {% endif %}
-                      {% if childlink.links != blank %}
-                        js-menu-state="close"
-                      {% endif %}
-                      js-menu-level="2"
-                    >
-                      <a
-                        href="{{ childlink.url }}"
-                        {% assign f4 = childlink.url | slice: 0, 4 %}
-                        {% if f4 == 'http' %}
-                          target="_blank"
-                          rel="noopener"
-                        {% endif %}
-                      >
-                        <span>{{- childlink.title | escape -}}</span>
-                      </a>
-                      {% comment %} 孫リンク {% endcomment %}
-                      {%- if childlink.links != blank -%}
-                        <ul>
-                          {%- for grandchildlink in childlink.links -%}
-                            <li
-                              {% if grandchildlink.current %}
-                                class="-active"
-                              {% endif %}
-                              js-menu-level="3"
-                            >
-                              <a
-                                href="{{ grandchildlink.url }}"
-                                {% assign f4 = grandchildlink.url | slice: 0, 4 %}
-                                {% if f4 == 'http' %}
-                                  target="_blank"
-                                  rel="noopener"
-                                {% endif %}
-                              >
-                                <span>{{- grandchildlink.title | escape -}}</span>
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              {%- endif -%}
             </li>
-          {%- endfor -%}
+          {%- endif -%}
+          <li>
+            <a href="{{ routes.cart_url }}"><span class="material-symbols-outlined">shopping_bag</span></a>
+            {%- if cart != empty -%}
+              {%- if cart.item_count < 10 -%}
+                <span class="count">{{ cart.item_count }}</span>
+              {%- else -%}
+                <span class="count">9+</span>
+              {%- endif -%}
+            {%- endif -%}
+          </li>
         </ul>
-      </nav>
-    {%- endif -%}
+      </div>
+      {%- if section.settings.menu != blank -%}
+        <nav class="menu" js-menu>
+          <ul>
+            {%- for link in section.settings.menu.links -%}
+              <li
+                {% if link.current %}
+                  class="-active"
+                {% endif %}
+                {% if link.links != blank %}
+                  js-menu-state="close"
+                {% endif %}
+                js-menu-level="1"
+              >
+                <a
+                  href="{{ link.url }}"
+                  {% assign f4 = link.url | slice: 0, 4 %}
+                  {% if f4 == 'http' %}
+                    target="_blank"
+                    rel="noopener"
+                  {% endif %}
+                >
+                  <span>{{- link.title | escape -}}</span>
+                </a>
+                {% comment %} 子リンク {% endcomment %}
+                {%- if link.links != blank -%}
+                  <ul>
+                    {%- for childlink in link.links -%}
+                      <li
+                        {% if childlink.current %}
+                          class="-active"
+                        {% endif %}
+                        {% if childlink.links != blank %}
+                          js-menu-state="close"
+                        {% endif %}
+                        js-menu-level="2"
+                      >
+                        <a
+                          href="{{ childlink.url }}"
+                          {% assign f4 = childlink.url | slice: 0, 4 %}
+                          {% if f4 == 'http' %}
+                            target="_blank"
+                            rel="noopener"
+                          {% endif %}
+                        >
+                          <span>{{- childlink.title | escape -}}</span>
+                        </a>
+                        {% comment %} 孫リンク {% endcomment %}
+                        {%- if childlink.links != blank -%}
+                          <ul>
+                            {%- for grandchildlink in childlink.links -%}
+                              <li
+                                {% if grandchildlink.current %}
+                                  class="-active"
+                                {% endif %}
+                                js-menu-level="3"
+                              >
+                                <a
+                                  href="{{ grandchildlink.url }}"
+                                  {% assign f4 = grandchildlink.url | slice: 0, 4 %}
+                                  {% if f4 == 'http' %}
+                                    target="_blank"
+                                    rel="noopener"
+                                  {% endif %}
+                                >
+                                  <span>{{- grandchildlink.title | escape -}}</span>
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+    </div>
+    <div class="btnMenu">
+      <a href="#" js-hamburger-open><span class="material-symbols-outlined">menu</span></a>
+      <a href="#" js-hamburger-close><span class="material-symbols-outlined">close</span></a>
+    </div>
   </div>
-  <div class="btnMenu"></div>
 </div>
 
 <script src="{{ 'SectionHeader.js' | asset_url }}" defer="defer"></script>

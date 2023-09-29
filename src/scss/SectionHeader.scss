@@ -3,6 +3,11 @@
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
 @keyframes anim-fadeIn{
+  /*
+  MEMO：
+  表示するときのみフェードインする。
+  両方させるときはvisibilityを使うとよいが高さが計算されてしまう。
+  */
 	0%{
     opacity: 0;
 	}
@@ -20,275 +25,419 @@
   top: 0;
   z-index: 50;
   background-color: #FFF;
-  > .inner{
-    display: flex;
-    gap: 40px;
-    max-width: var(--contents-max-width);
-    margin: 0 auto;
-    > .logo{
+  > .wrapper{
+    border-bottom: 1px solid #EEE;
+    > .inner{
       display: flex;
-      align-items: center;
-    }
-    > .links{
-      flex-grow: 1;
-      > .ecLinks{
-        > ul{
-          display: flex;
-          gap: 10px;
-          > li{
-            > a{
-              display: block;
-              color: #000;
-              > span{
+      gap: 40px;
+      max-width: var(--contents-max-width);
+      margin: 0 auto;
+      @include sp{
+        gap: 10px;
+      }
+      > .logo{
+        display: flex;
+        align-items: center;
+      }
+      > .links{
+        flex-grow: 1;
+        > .ecLinks{
+          > ul{
+            display: flex;
+            gap: 10px;
+            > li{
+              > a{
                 display: block;
-                line-height: 1;
-                font-size: 30px;
+                color: #000;
+                > span{
+                  display: block;
+                  line-height: 1;
+                  font-size: 3.0rem;
+                }
               }
-            }
-            &.search{
-              &::after{
-                content: '';
-                width: 100%;
-                height: 100dvh;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 100;
-                background-color: rgba(#000, .5);
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.3s, visibility 0s ease-out;
-              }
-              > .modal{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 101;
-                padding: 10px;
-                background-color: #FFF;
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.3s, visibility 0s ease-out;
-                > .inner{
+              &.search{
+                &::after{
+                  content: '';
+                  width: 100%;
+                  height: 100dvh;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  z-index: 100;
+                  background-color: rgba(#000, .5);
+                  opacity: 0;
+                  visibility: hidden;
+                  transition: opacity 0.3s, visibility 0s ease-out;
+                }
+                > .modal{
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                  gap: 10px;
                   width: 100%;
-                  max-width: var(--contents-max-width);
-                  > .input{
-                    flex-grow: 1;
-                    max-width: 800px;
-                    position: relative;
-                    > form{
-                      > input{
-                        width: 100%;
-                        padding-right: 52px;
-                        &::placeholder {
-                          color: #CCC;
+                  min-height: 100%;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  z-index: 101;
+                  padding: 10px;
+                  background-color: #FFF;
+                  opacity: 0;
+                  visibility: hidden;
+                  transition: opacity 0.3s, visibility 0s ease-out;
+                  > .inner{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    width: 100%;
+                    max-width: var(--contents-max-width);
+                    > .input{
+                      flex-grow: 1;
+                      max-width: 800px;
+                      position: relative;
+                      > form{
+                        > input{
+                          width: 100%;
+                          padding-right: 52px;
+                          &::placeholder {
+                            color: #CCC;
+                          }
+                        }
+                        > button{
+                          display: block;
+                          width: 32px;
+                          height: 32px;
+                          position: absolute;
+                          right: 10px;
+                          top: calc(50% - 16px);
+                          transition: all 0.1s ease-out;
+                          &::after{
+                            content: '\e8b6';
+                            display: block;
+                            line-height: 1;
+                            font-family: 'Material Icons';
+                            font-size: 3.2rem;
+                            font-weight: 200;
+                          }
+                          &:hover{
+                            transform: scale(1.2);
+                          }
                         }
                       }
-                      > button{
+                    }
+                    > .close{
+                      > a{
                         display: block;
-                        width: 32px;
-                        height: 32px;
-                        position: absolute;
-                        right: 10px;
-                        top: calc(50% - 16px);
                         transition: all 0.1s ease-out;
-                        &::after{
-                          content: '\e8b6';
-                          display: block;
-                          line-height: 1;
-                          font-family: 'Material Icons';
-                          font-size: 32px;
-                        }
                         &:hover{
                           transform: scale(1.2);
                         }
-                      }
-                    }
-                  }
-                  > .close{
-                    > a{
-                      display: block;
-                      transition: all 0.1s ease-out;
-                      &:hover{
-                        transform: scale(1.2);
-                      }
-                      > span{
-                        display: block;
-                        line-height: 1;
-                        color: #000;
-                        font-size: 32px;
+                        > span{
+                          display: block;
+                          line-height: 1;
+                          color: #000;
+                          font-size: 3.2rem;
+                        }
                       }
                     }
                   }
                 }
-              }
-              // モーダルオープン時
-              &[js-search-modal-state="open"]{
-                &::after{
-                  opacity: 1;
-                  visibility: visible;
-                }
-                > .modal{
-                  opacity: 1;
-                  visibility: visible;
-                }
-              }
-            }
-          }
-        }
-      }
-      > .menu{
-        > ul{
-          display: flex;
-          flex-wrap: wrap;
-          gap: 20px;
-          > li{
-            > a{
-              color: #000;
-              &:hover{
-                opacity: 1;
-                > span{
-                  text-decoration: underline;
-                }
-              }
-            }
-            // 子メニューがあるときのa
-            &[js-menu-state]{
-              position: relative;
-              > a{
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                &::after{
-                  font-family: 'Material Icons';
-                }
-              }
-              // 閉じているとき
-              &[js-menu-state="close"] > a::after{
-                content: '\e5cf';
-              }
-              // 開いているとき
-              &[js-menu-state="open"] > a::after{
-                content: '\e5ce';
-              }
-            }
-            // 2階層目
-            > ul{
-              display: none;
-              position: absolute;
-              top: calc(100% + 10px);
-              left: -11px;
-              background: #FFF;
-              border: 1px solid #CCC;
-              border-radius: 5px;
-              overflow: hidden;
-              > li{
-                & + li{
-                  border-top: 1px dashed #CCC;
-                }
-                > a{
-                  display: block;
-                  padding: 8px 10px;
-                  color: #000;
-                  &:hover{
+                // モーダルオープン時
+                &[js-search-modal-state="open"]{
+                  &::after{
                     opacity: 1;
-                    > span{
-                      text-decoration: underline;
-                    } 
+                    visibility: visible;
                   }
-                }
-                // 子メニューがあるときのa
-                &[js-menu-state]{
-                  > a{
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    &::after{
-                      font-family: 'Material Icons';
-                    }
+                  > .modal{
+                    opacity: 1;
+                    visibility: visible;
                   }
-                  // 閉じているとき
-                  &[js-menu-state="close"] > a::after{
-                    content: '\e5cf';
-                  }
-                  // 開いているとき
-                  &[js-menu-state="open"] > a::after{
-                    content: '\e5ce';
-                  }
-                }
-                // 3階層目
-                > ul{
-                  display: none;
-                  margin: -3px 0 8px;
-                  > li{
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    padding: 0 10px;
-                    &::before{
-                      content: '-';
-                    }
-                    > a{
-                      color: #000;
-                      font-size: 1.2rem;
-                      &:hover{
-                        opacity: 1;
-                        text-decoration: underline;
-                      }
-                    }
-                  }
-                }
-                // 開いているときのul
-                &[js-menu-state="open"] > ul{
-                  display: block;
-                  animation: anim-fadeIn 0.3s ease-in 0s 1 normal both;
                 }
               }
             }
-            // 開いているときのul
-            &[js-menu-state="open"] > ul{
-              display: block;
-              animation: anim-fadeIn 0.3s ease-in 0s 1 normal both;
-            }
           }
-        }
-      }
-      // メニュー位置：中央で左寄せ、中央で右寄せ　共通
-      &[menu-position="center_left"],
-      &[menu-position="center_right"]{
-        display: flex;
-        gap: 30px;
-        align-items: center;
-        > .ecLinks{
-          order: 2;
-          margin-left: auto;
         }
         > .menu{
-          order: 1;
+          @include sp{
+            display: none;
+          }
+          > ul{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            > li{
+              > a{
+                color: #000;
+                &:hover{
+                  opacity: 1;
+                  > span{
+                    text-decoration: underline;
+                  }
+                }
+              }
+              // 子メニューがあるときのa
+              &[js-menu-state]{
+                position: relative;
+                > a{
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                  &::after{
+                    font-family: 'Material Icons';
+                  }
+                }
+                // 閉じているとき
+                &[js-menu-state="close"] > a::after{
+                  content: '\e5cf';
+                }
+                // 開いているとき
+                &[js-menu-state="open"] > a::after{
+                  content: '\e5ce';
+                }
+              }
+              // 2階層目
+              > ul{
+                display: none;
+                position: absolute;
+                top: calc(100% + 10px);
+                left: -11px;
+                background: #FFF;
+                border: 1px solid #CCC;
+                border-radius: 5px;
+                overflow: hidden;
+                > li{
+                  & + li{
+                    border-top: 1px dashed #CCC;
+                  }
+                  > a{
+                    display: block;
+                    padding: 8px 10px;
+                    color: #000;
+                    &:hover{
+                      opacity: 1;
+                      > span{
+                        text-decoration: underline;
+                      } 
+                    }
+                  }
+                  // 子メニューがあるときのa
+                  &[js-menu-state]{
+                    > a{
+                      display: flex;
+                      align-items: center;
+                      gap: 5px;
+                      &::after{
+                        font-family: 'Material Icons';
+                      }
+                    }
+                    // 閉じているとき
+                    &[js-menu-state="close"] > a::after{
+                      content: '\e5cf';
+                    }
+                    // 開いているとき
+                    &[js-menu-state="open"] > a::after{
+                      content: '\e5ce';
+                    }
+                  }
+                  // 3階層目
+                  > ul{
+                    display: none;
+                    margin: -3px 0 8px;
+                    > li{
+                      display: flex;
+                      align-items: center;
+                      gap: 5px;
+                      padding: 0 10px;
+                      &::before{
+                        content: '-';
+                      }
+                      > a{
+                        color: #000;
+                        font-size: 1.2rem;
+                        &:hover{
+                          opacity: 1;
+                          text-decoration: underline;
+                        }
+                      }
+                    }
+                  }
+                  // 開いているときのul
+                  &[js-menu-state="open"] > ul{
+                    display: block;
+                    animation: anim-fadeIn 0.3s ease-in 0s 1 normal both;
+                  }
+                }
+              }
+              // 開いているときのul
+              &[js-menu-state="open"] > ul{
+                display: block;
+                animation: anim-fadeIn 0.3s ease-in 0s 1 normal both;
+              }
+            }
+          }
+        }
+        // メニュー位置：中央で左寄せ、中央で右寄せ　共通
+        &[menu-position="center_left"],
+        &[menu-position="center_right"]{
+          display: flex;
+          gap: 30px;
+          align-items: center;
+          > .ecLinks{
+            order: 2;
+            margin-left: auto;
+          }
+          > .menu{
+            order: 1;
+          }
+        }
+        // メニュー位置：中央で右寄せ
+        &[menu-position="center_right"]{
+          flex-grow: 0;
+          margin-left: auto;
+        }
+        // メニュー位置：右下
+        &[menu-position="right_bottom"]{
+          > .ecLinks > ul{
+            justify-content: flex-end;
+          }
+          > .menu > ul{
+            justify-content: flex-end;
+          }
         }
       }
-      // メニュー位置：中央で右寄せ
-      &[menu-position="center_right"]{
-        flex-grow: 0;
-        margin-left: auto;
+      > .btnMenu{
+        display: none;
+        @include sp{
+          display: block;
+        }
+        > a{
+          display: block;
+          color: #000;
+          > span{
+            display: block;
+            line-height: 1;
+            font-size: 3.0rem;
+          }
+        }
       }
-      // メニュー位置：右下
-      &[menu-position="right_bottom"]{
-        > .ecLinks > ul{
-          justify-content: flex-end;
+    }
+  }
+  > .menuSp{
+    display: none;
+    overflow-y: auto;
+    // 共通
+    li{
+      a{
+        display: block;
+        color: #000;
+      }
+      // 子メニューがあるとき
+      &[js-menu-state]{
+        position: relative;
+        > a{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 5px;
+          &::after{
+            font-family: 'Material Icons';
+          }
         }
-        > .menu > ul{
-          justify-content: flex-end;
+      }
+      // 閉じているとき
+      &[js-menu-state="close"] > a{
+        &::after{
+          content: '\e5cf';
         }
+      }
+      // 開いているとき
+      &[js-menu-state="open"] > a{
+        &::after{
+          content: '\e5ce';
+        }
+      }
+    }
+    // 階層別
+    > ul{
+      padding: 30px;
+      > li{
+        & + li{
+          margin-top: 30px;
+        }
+        > a{
+          font-size: 1.6rem;
+        }
+        > ul{
+          margin-top: 20px;
+          display: none;
+          > li{
+            & + li{
+              margin-top: 20px;
+            }
+            > a{
+              padding: 0 0 0 20px;
+              font-size: 1.4rem;
+            }
+            > ul{
+              display: none;
+              margin-top: 20px;
+              > li{
+                & + li{
+                  margin-top: 20px;
+                }
+                > a{
+                  padding: 0 0 0 40px;
+                  font-size: 1.2rem;
+                }
+              }
+            }
+            &[js-menu-state="open"]{
+              > ul{
+                display: block;
+              }
+            }
+          }
+        }
+        &[js-menu-state="open"]{
+          > ul{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  // ハンバーガー閉じているとき（※全てSP）
+  @include sp{
+    &[js-hamburger-state="close"]{
+      > .wrapper{
+        > .inner{
+          > .btnMenu{
+            > [js-hamburger-close]{
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+  // ハンバーガー開いているとき（※全てSP）
+  @include sp{
+    &[js-hamburger-state="open"]{
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      > .wrapper{
+        > .inner{
+          > .btnMenu{
+            > [js-hamburger-open]{
+              display: none;
+            }
+          }
+        }
+      }
+      > .menuSp{
+        display: block;
+        animation: anim-fadeIn 0.3s ease-in 0s 1 normal both;
       }
     }
   }

@@ -3,7 +3,7 @@
 ### z-index
 
 modal: 101
-modalbg:100
+modalbg: 100
 
 header: 50
 

@@ -6,6 +6,17 @@ class SectionHeader {
   }
   init(){
 
+    // js-hamburger-state 初期化
+    this.rootEl.setAttribute('js-hamburger-state', 'close');
+
+    // メニューDOMの複製
+    const menuEl =  this.rootEl.querySelector('[js-menu]');
+    if( menuEl ){
+      let menuSpEl = menuEl.cloneNode(true) as Element;
+      menuSpEl.className = 'menuSp';
+      this.rootEl.appendChild(menuSpEl);
+    }
+
     // メニュークリック処理
     this.rootEl.querySelectorAll('[js-menu] [js-menu-state] > a').forEach((el)=>{
 
@@ -21,7 +32,7 @@ class SectionHeader {
 
         // stateがclose、かつ、level1なら、開いているlevel1をcloseする
         if(state=='close' && level=='1'){
-          this.rootEl.querySelector('[js-menu] [js-menu-state="open"][js-menu-level="1"]')?.setAttribute('js-menu-state', 'close');
+          el.closest('[js-menu]')?.querySelector('[js-menu] [js-menu-state="open"][js-menu-level="1"]')?.setAttribute('js-menu-state', 'close');
         }
 
         // open/closeのトグル
@@ -66,6 +77,40 @@ class SectionHeader {
 
       // スクロール固定解除
       document.getElementsByTagName('body')[0].setAttribute("js-overflow-hidden", "false");
+    });
+
+    // ハンバーガーメニュー（開く）クリック処理
+    this.rootEl.querySelector('[js-hamburger-open]')?.addEventListener("click", (e)=>{
+      console.log('ハンバーガーひらく');
+      e.preventDefault();
+      this.rootEl.setAttribute('js-hamburger-state', 'open');
+
+      // スクロール固定
+      document.getElementsByTagName('body')[0].setAttribute("js-overflow-hidden", "true");
+    });
+
+    // ハンバーガーメニュー（閉じる）クリック処理
+    this.rootEl.querySelector('[js-hamburger-close]')?.addEventListener("click", (e)=>{
+      e.preventDefault();
+      this.rootEl.setAttribute('js-hamburger-state', 'close');
+
+      // スクロール固定
+      document.getElementsByTagName('body')[0].setAttribute("js-overflow-hidden", "false");
+    });
+
+    // ハンバーガーメニュー外クリック処理
+    document.addEventListener('click', (e) => {
+      console.log('ハンバーガー以外がクリックされた');
+      // 開いているハンバーガーメニューがなければ何もしない
+      if( this.rootEl.getAttribute('js-hamburger-state') != 'open' ) return false;
+
+      // targetの取得
+      let target = e.target as Element;
+
+      // 開いているlevel1メニューの子以外、かつ、ハンバーガーメニュー以外をクリックしていたら、閉じる
+      if( !target.closest(`#${this.rootId} .menuSp`) && !target.closest(`#${this.rootId} [js-hamburger-open]`) ){
+        this.rootEl.setAttribute("js-hamburger-state", "close");
+      }
     });
   }
 }
