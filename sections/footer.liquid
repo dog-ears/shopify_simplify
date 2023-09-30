@@ -1,4 +1,21 @@
-<div>footer.liquid</div>
+<link rel="stylesheet" href="{{ 'SectionFooter.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{% if section.settings.show_policylink %}
+  <div class="policyLink">
+    <div class="inner">
+      <ul>
+        {%- for policy in shop.policies -%}
+          {%- if policy != blank -%}
+            <li>
+              <a href="{{ policy.url }}">{{ policy.title }}</a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+<div class="copyright">{{ section.settings.copyright }}</div>
 
 {% schema %}
 {
@@ -11,9 +28,16 @@
   },
   "settings": [
     {
-      "type": "text",
-      "id": "test01",
-      "label": "テキスト"
+      "type": "checkbox",
+      "id": "show_policylink",
+      "label": "ポリシーリンクを表示する",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "copyright",
+      "label": "コピーライト",
+      "default": "© 20XX XXXXXXXXXX"
     }
   ],
   "blocks": [

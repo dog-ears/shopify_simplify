@@ -1,0 +1,50 @@
+@charset "utf-8";
+@use 'inc/utility' as *;
+
+/* --------------------------------------------------
+セクション フッタ
+-------------------------------------------------- */
+
+.section-footer{
+  border-top: 1px solid #EEE;
+  padding-top: 30px;
+  > .policyLink{
+    padding: 0 var(--contents-padding-x-pc);
+    @include sp{
+      padding: 0 var(--contents-padding-x-sp);
+    }
+    > .inner{
+      max-width: var(--contents-max-width);
+      margin: 0 auto;
+      > ul{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 20px;
+        @include sp{
+          gap: 10px;
+        }
+        > li{
+          > a{
+            color: #000;
+            font-size: 1.2rem;
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+  > .copyright{
+    margin-top: 30px;
+    padding: 10px var(--contents-padding-x-pc);
+    background-color: #EEE;
+    text-align: center;
+    font-size: 1.2rem;
+    @include sp{
+      padding: 10px var(--contents-padding-x-sp);
+    }
+  }
+
+}
